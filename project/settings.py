@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Project-specific
-    'core',
+    'questionbox',
 ]
 
 MIDDLEWARE = [
