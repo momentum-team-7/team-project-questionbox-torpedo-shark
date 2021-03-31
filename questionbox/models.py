@@ -8,8 +8,8 @@ class User(AbstractUser):
 class Question(models.Model):
     title = models.CharField(max_length=250)
     body = models.TextField(max_length=1000)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     created = models.DateField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
 
     class Meta:
         ordering = ['created']
