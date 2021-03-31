@@ -6,6 +6,10 @@ from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer
 
 # Create your views here.
 
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
