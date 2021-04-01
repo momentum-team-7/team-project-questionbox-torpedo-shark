@@ -7,14 +7,17 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username',)
 
-
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        fields = ('id', 'title', 'body', 'author', 'tag')
-
-
+    
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ('id', 'question', 'body',)
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True) 
+
+    class Meta:
+        model = Question
+        fields = ('id', 'title', 'body', 'author', 'tag', 'answers',)
+
