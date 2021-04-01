@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from .models import User, Question, Answer
 from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer
 
@@ -15,14 +15,13 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        queryset = Question.objects.filter(author=self.request.user)
-        search_term = self.request.query_params.get('search')
-        if search_term is not None:
-            queryset = queryset.filter(body__search=search_term)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Question.objects.filter(author=self.request.user)
+    #     search_term = self.request.query_params.get('search')
+    #     if search_term is not None:
+    #         queryset = queryset.filter(body__search=search_term)
+    #     return queryset
 
 
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
