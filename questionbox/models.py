@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from taggit.managers import TaggableManager
 
 class User(AbstractUser):
     pass
@@ -10,6 +11,7 @@ class Question(models.Model):
     body = models.TextField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['created']
@@ -21,6 +23,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question')
     body = models.TextField(max_length=500)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reply')
 
     def __str__(self):
         return f'{self.body}'
