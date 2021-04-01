@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from .models import User, Question, Answer
 
 
@@ -9,15 +9,22 @@ class UserSerializer(serializers.ModelSerializer):
 
     
 class AnswerSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Answer
-        fields = ('id', 'question', 'body',)
+        fields = ('id', 'body', 'question',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    answers = AnswerSerializer(many=True) 
+    replies = AnswerSerializer(read_only=True, many=True)
 
     class Meta:
         model = Question
-        fields = ('id', 'title', 'body', 'author', 'tag', 'answers',)
+        fields = ('id', 'title', 'body', 'author', 'tags', 'replies',)
 
+    # def create(self, validated_data):
+    #     questions_data = validated_data.pop('questionsanswer')
+    #     question = Question.objects.create(**validated_data)
+    #     for question_data in questions_data:
+    #         Question.objects.create(author=question, **question_data)
+    #     return question
