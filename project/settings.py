@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # Project-specific
     'core',
+    'django_rename_app',
 ]
 
 MIDDLEWARE = [
