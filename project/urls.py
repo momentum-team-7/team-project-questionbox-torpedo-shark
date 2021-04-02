@@ -19,7 +19,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('core.urls')),
 ]
+
+# path('auth/', include('djoser.urls')),
+#     path('auth/', include('djoser.urls.authtoken')),
 
 if settings.DEBUG:
     import debug_toolbar
@@ -29,3 +33,4 @@ if settings.DEBUG:
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
