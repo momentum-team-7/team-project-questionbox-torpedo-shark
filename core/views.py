@@ -16,6 +16,9 @@ class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
     # def get_queryset(self):
     #     queryset = Question.objects.filter(author=self.request.user)
     #     search_term = self.request.query_params.get('search')
