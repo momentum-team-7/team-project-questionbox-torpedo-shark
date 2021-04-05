@@ -19,16 +19,17 @@ class QuestionList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    # def get_queryset(self):
+    #     queryset = Question.objects.filter(author=self.request.user)
+    #     search_term = self.request.query_params.get('search')
+    #     if search_term is not None:
+    #         queryset = queryset.filter(body__search=search_term)
+    #     return queryset
+
 
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-
-    def perform_update(self, serializer):
-        instance = serializer.save()
-
-    def perform_destroy(self, serializer):
-        instance = serializer.delete()
 
 
 class AnswerList(generics.ListCreateAPIView):
