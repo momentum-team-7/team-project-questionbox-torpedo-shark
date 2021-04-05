@@ -1,10 +1,35 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class User(AbstractUser):
     pass
 
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    join_year = models.DateField(auto_now_add=True)
+    img = models.ImageField(upload_to='media', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.username}'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+    
 
 class Answer(models.Model):
     body = models.TextField(max_length=500)
