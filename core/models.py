@@ -10,7 +10,7 @@ class Answer(models.Model):
     body = models.TextField(max_length=500)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reply_author')
     question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='replies')
-    likes = models.IntegerField(default=0) # new
+    likes = models.IntegerField(default=0, blank=True, null=True) # new
 
     def __str__(self):
         return f'{self.body}'
@@ -22,8 +22,8 @@ class Question(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     tags = models.CharField(max_length=200)
-    likes = models.IntegerField(default=0) # new
-    answered = models.BooleanField(default=False) # new
+    likes = models.IntegerField(default=0, blank=True, null=True) # new
+    answered = models.BooleanField(default=False, blank=True, null=True) # new
 
     class Genre(models.TextChoices):
         hiphop = 'Hiphop', _('Hip-hop')
