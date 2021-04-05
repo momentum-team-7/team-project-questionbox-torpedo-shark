@@ -41,6 +41,7 @@ class Answer(models.Model):
         return f'{self.body}'
 
 
+
 class Question(models.Model):
     title = models.CharField(max_length=250)
     body = models.TextField(max_length=1000)
