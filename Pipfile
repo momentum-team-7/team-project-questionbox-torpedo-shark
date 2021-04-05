@@ -18,6 +18,7 @@ djangorestframework = "*"
 django-rename-app = "*"
 djoser = "*"
 django-cors-headers = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.9"
