@@ -16,6 +16,8 @@ django-on-heroku = "*"
 gunicorn = "*"
 djangorestframework = "*"
 django-rename-app = "*"
+djoser = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.9"
