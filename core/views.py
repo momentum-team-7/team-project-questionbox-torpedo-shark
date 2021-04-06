@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from .models import User, Question, Answer
-from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer
+from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer, QuestionResponseSerializer
 
 
 # Create your views here.
@@ -35,7 +35,28 @@ class AnswerList(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
 
 class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+
+    def perform_destroy(self, serializer):
+        instance = serializer.delete()
+
+class QuestionResponseList(generics.ListCreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionResponseSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+    
+    def perform_update(self, serializer):
+        instance = serializer.save()

@@ -1,5 +1,5 @@
 from rest_framework import serializers, fields
-from .models import User, Question, Answer
+from .models import User, Profile, Question, Answer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -7,12 +7,20 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username',)
 
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'user', 'first_name', 'last_name', 'bio', 'location', 'join_year', 'img',)
+
     
 class AnswerSerializer(serializers.ModelSerializer):
+    question_body = serializers.ReadOnlyField(source='question.body')
 
     class Meta:
         model = Answer
-        fields = ('id', 'body', 'question',)
+        fields = ('id', 'body', 'question_body',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -23,9 +31,11 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('id', 'title', 'body', 'author', 'tags', 'replies', 'musicgenre',)
 
-    # def create(self, validated_data):
-    #     questions_data = validated_data.pop('questionsanswer')
-    #     question = Question.objects.create(**validated_data)
-    #     for question_data in questions_data:
-    #         Question.objects.create(author=question, **question_data)
-    #     return question
+class QuestionResponseSerializer(serializers.ModelSerializer):
+    replies = AnswerSerializer(read_only=True, many=True)
+    # author = ProfileSerializer(read_only=True)
+
+
+    class Meta:
+        model = Answer
+        fields = ('id', 'body', 'replies',)
