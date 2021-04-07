@@ -59,6 +59,12 @@ class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuestionDetailSerializer
     permission_class = [IsAuthenticated]
 
+    # def get_serializer(self, *args, **kwargs):
+    #     # leave this intact
+    #     serializer_class = self.get_serializer_class()
+    #     kwargs["context"] = self.get_serializer_context()
+    #     return serializer_class(*args, **kwargs)
+
     def perform_update(self, serializer):
         instance = serializer.save()
         

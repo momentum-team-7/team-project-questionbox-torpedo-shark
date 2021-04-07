@@ -56,7 +56,9 @@ class QuestionDetailSerializer(serializers.HyperlinkedModelSerializer):
         model = Question
         fields = ('id', 'title', 'body', 'author', 'tags', 'replies', 'musicgenre',)
 
-
+    # def update(self, instance, validated_data):
+    #     replies = instance.replies.all()
+        
 class QuestionResponseSerializer(serializers.ModelSerializer):
     question = QuestionSerializer(read_only=True, many=True)
 
