@@ -90,6 +90,7 @@ class AnswerList(generics.ListCreateAPIView):
 class AnswerWrite(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerWriteableSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
