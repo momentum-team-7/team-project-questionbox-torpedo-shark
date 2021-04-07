@@ -4,7 +4,7 @@ from core import views
 
 urlpatterns = [
     path('user/<int:pk>/', views.UserDetail.as_view()),
-    path('user/<int:pk>/destroy', views.UserDestroy.as_view()),
+    path('user/<int:pk>/destroy/', views.UserDestroy.as_view()),
     path('profile-page/<int:pk>/', views.ProfileDetail.as_view()),
     path('profile-page/<int:pk>/update/', views.ProfileUpdate.as_view()),
     path('profile-page/<int:user_id>/questions/', views.ProfileQuestions.as_view()),
