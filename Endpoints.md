@@ -65,7 +65,45 @@ output
 []
 ```
 
+### example user token gen
 
+first generate a user
+https://questionbox-torpedo-shark.herokuapp.com/auth/users/
+
+```JSON
+# JSON
+{
+  "username": "NewAdmin",
+  "password": "notsogoodpassword"
+}
+output
+{
+  "email": "",
+  "username": "NewAdmin",
+  "id": 3     <-- depends on how many users made prior to this
+}
+```
+
+after this we need to get the Token for that user
+http://127.0.0.1:8000/auth/token/login/
+
+```JSON
+# JSON
+{
+  "username": "NewAdmin",
+  "password": "notsogoodpassword"
+}
+output
+{
+  "auth_token": "b9af6653516f2315251c440ba2d340e579b1a521" <-- example Token
+}
+```
+
+Now whenever we need to use the Token for example on a POST request, instead of on the "auth" tab below the url we will switch it to "Bearer Token".
+Token     b9af6653516f2315251c440ba2d340e579b1a521
+PREFIX   Token
+
+after that as long as the user's token meets the permissions check you should be good to go for authenticating
 
 
 
