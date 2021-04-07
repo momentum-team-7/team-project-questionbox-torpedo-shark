@@ -105,5 +105,73 @@ PREFIX   Token
 
 after that as long as the user's token meets the permissions check you should be good to go for authenticating
 
+### ANSWERS
 
+Available endpoints for answers
+
+Listing all answers regardless of the question
+https://questionbox-torpedo-shark.herokuapp.com/answers/
+
+adding an answer is just a little extra
+https://questionbox-torpedo-shark.herokuapp.com/answers/add/ 
+
+```JSON
+# JSON
+{
+	"body": "This might be the answer",
+	"question": "1"  <-- for now you must manually input the question id
+}
+output
+{
+  "id": 4,
+  "body": "This might be the answer",
+  "question": 1
+}
+```
+
+Now adding and viewing all answers is nice but what if you want to view only the answers for a particular question? EASY!
+
+https://questionbox-torpedo-shark.herokuapp.com/questions/1/answers/  <-- notice we use  the pk of the question then ask for the answers 
+
+```JSON
+# JSON
+output
+[
+  {
+    "id": 1,
+    "body": "this is a damn answer",
+    "question": 1,
+    "author": {
+      "id": 1,
+      "username": "admin"
+    }
+  },
+  {
+    "id": 2,
+    "body": "WHAT NOW HEROKU!!!",
+    "question": 1,
+    "author": {
+      "id": 6,
+      "username": "GrantV2"
+    }
+  },
+  {
+    "id": 4,
+    "body": "This might be the answer",
+    "question": 1,
+    "author": {
+      "id": 6,
+      "username": "GrantV2"
+    }
+  }
+]
+```
+
+### User
+
+Only one currently working end point, this will likely change as well
+
+https://questionbox-torpedo-shark.herokuapp.com/user/1/
+
+grabs this specified user by id
 
