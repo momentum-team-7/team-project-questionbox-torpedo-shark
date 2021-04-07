@@ -1,17 +1,34 @@
 from rest_framework import serializers, fields
 from .models import User, Question, Answer
 
+class CurrentUserDefault:
+
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        return serializer_field.context['request'].user
+
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('id', 'username',)
 
     
 class AnswerSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+
     class Meta:
         model = Answer
-        fields = ('id', 'body', 'question',)
+        fields = ('id', 'body', 'question', 'author',)
+
+class AnswerWriteableSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    
+    class Meta: 
+        model = Answer
+        fields = ('id', 'body', 'question', 'author',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):

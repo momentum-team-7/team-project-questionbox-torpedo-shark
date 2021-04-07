@@ -9,6 +9,7 @@ urlpatterns = [
     path('questions/<int:question_id>/answers/', views.QuestionResponse.as_view()),
     path('answers/<int:pk>/', views.AnswerDetail.as_view()),
     path('answers/', views.AnswerList.as_view()),
+    path('answers/add/', views.AnswerWrite.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

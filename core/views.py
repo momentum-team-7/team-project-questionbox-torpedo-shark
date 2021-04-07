@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from .models import User, Question, Answer, Profile
-from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer, QuestionDetailSerializer, QuestionResponseSerializer
+from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer, QuestionDetailSerializer, QuestionResponseSerializer, AnswerWriteableSerializer
 
 
 # Create your views here.
@@ -46,6 +46,11 @@ class QuestionResponse(generics.ListCreateAPIView):
 class AnswerList(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+
+
+class AnswerWrite(generics.ListCreateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerWriteableSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
