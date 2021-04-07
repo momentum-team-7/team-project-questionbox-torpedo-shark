@@ -105,14 +105,20 @@ PREFIX   Token
 
 after that as long as the user's token meets the permissions check you should be good to go for authenticating
 
-### ANSWERS
+### ANSWERS API Stuff
 
 Available endpoints for answers
 
 Listing all answers regardless of the question
+
+GET request for ALL answers
+
 https://questionbox-torpedo-shark.herokuapp.com/answers/
 
 adding an answer is just a little extra
+
+POST request for answers
+
 https://questionbox-torpedo-shark.herokuapp.com/answers/add/ 
 
 ```JSON
@@ -167,11 +173,82 @@ output
 ]
 ```
 
-### User
+### User API Stuff
 
 Only one currently working end point, this will likely change as well
 
-https://questionbox-torpedo-shark.herokuapp.com/user/1/
+GET request for user
+
+https://questionbox-torpedo-shark.herokuapp.com/user/1/ <-- this is the pk for the user you intend to grab information on
+
+DELETE request for a user
+
+https://questionbox-torpedo-shark.herokuapp.com/user/1/destroy/ <-- once again grabbing the user's pk and this will do a DELETE  
 
 grabs this specified user by id
+
+### Profile API Stuff
+
+GET request for a particular profile
+
+https://questionbox-torpedo-shark.herokuapp.com/profile-page/1/ <-- this grabs the profile information based on the pk given, Users and Profiles should have the same pk numbers but they hold different information, although they are related by a OneToOne.
+
+PATCH request for a profile
+
+https://questionbox-torpedo-shark.herokuapp.com/profile-page/1/update/ 
+
+```JSON
+# JSON
+{
+	"location": "Home!"
+}
+output
+{
+  "id": 1,
+  "user": {
+    "id": 1,
+    "username": "admin"
+  },
+  "first_name": "",
+  "last_name": "",
+  "bio": "A long time ago I was a fish, but now I am a shark!",
+  "location": "Home!",
+  "join_year": "2021-04-07",
+  "img": null
+}
+```
+
+Now if we wanted only the questions relative to this profile we can do that
+
+GET request for ONLY the questions from this profile
+
+https://questionbox-torpedo-shark.herokuapp.com/profile-page/1/questions/  <-- has pk for the profile that is being compared
+
+```JSON
+# JSON, example return for this request
+[
+  {																				<----
+    "id": 1,																	 |
+    "title": "what is love?",  								 |
+    "body": "baby don't hurt me",							 |
+    "author": {																 |
+      "id": 1,																 | One whole question
+      "username": "admin"											 |
+    },																				 |
+    "tags": "tagged",													 |
+    "musicgenre": "Booty Bass"                 |
+  },																		  <----
+  {																				<----
+    "id": 5,																	 |
+    "title": "I am a test, beep boop",         |
+    "body": "beep boop",										   |
+    "author": {																 |
+      "id": 1,																 | 2nd question for this
+      "username": "admin"											 | profile, all questions
+    },																				 | are going to present
+    "tags": "tags",														 | this way
+    "musicgenre": "Test"											 |
+  }																				<----
+]
+```
 
