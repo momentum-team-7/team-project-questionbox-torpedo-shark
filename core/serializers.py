@@ -9,13 +9,20 @@ class UserSerializer(serializers.ModelSerializer):
 
     
 class AnswerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Answer
         fields = ('id', 'body', 'question',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = Question
+        fields = ('id', 'title', 'body', 'author', 'tags', 'musicgenre',)
+    
+
+class QuestionDetailSerializer(serializers.HyperlinkedModelSerializer):
     replies = AnswerSerializer(read_only=True, many=True)
     author = UserSerializer(read_only=True)
 
@@ -23,9 +30,10 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('id', 'title', 'body', 'author', 'tags', 'replies', 'musicgenre',)
 
-    # def create(self, validated_data):
-    #     questions_data = validated_data.pop('questionsanswer')
-    #     question = Question.objects.create(**validated_data)
-    #     for question_data in questions_data:
-    #         Question.objects.create(author=question, **question_data)
-    #     return question
+
+class QuestionResponseSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Question
+        fields = ('id', 'body', 'question',)
