@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
-from .models import User, Question, Answer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from .models import User, Question, Answer, Profile
 from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer
 
 
@@ -15,6 +15,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_class = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -23,6 +24,7 @@ class QuestionList(generics.ListCreateAPIView):
 class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_class = [IsAuthenticated]
 
     def perform_update(self, serializer):
         instance = serializer.save()
