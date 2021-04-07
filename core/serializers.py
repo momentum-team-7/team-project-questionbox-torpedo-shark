@@ -1,5 +1,6 @@
 from rest_framework import serializers, fields
-from .models import User, Question, Answer
+from rest_framework.exceptions import ValidationError
+from .models import User, Question, Answer, Profile
 
 class CurrentUserDefault:
 
@@ -15,7 +16,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username',)
 
-    
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Profile
+        fields = ('id', 'user', 'first_name', 'last_name', 'bio', 'location', 'join_year', 'img',)
+
+
 class AnswerSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
 
@@ -23,10 +31,11 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = ('id', 'body', 'question', 'author',)
 
+
 class AnswerWriteableSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     
-    class Meta: 
+    class Meta:
         model = Answer
         fields = ('id', 'body', 'question', 'author',)
 
@@ -47,10 +56,20 @@ class QuestionDetailSerializer(serializers.HyperlinkedModelSerializer):
         model = Question
         fields = ('id', 'title', 'body', 'author', 'tags', 'replies', 'musicgenre',)
 
-
+    # def update(self, instance, validated_data):
+    #     replies = instance.replies.all()
+        
 class QuestionResponseSerializer(serializers.ModelSerializer):
     question = QuestionSerializer(read_only=True, many=True)
 
     class Meta:
         model = Question
         fields = ('id', 'body', 'question',)
+
+
+class ProfileDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    question = QuestionSerializer(read_only=True)
+    class Meta:
+        model = Profile
+        fields = ('id', 'user', 'first_name', 'last_name', 'bio', 'location', 'join_year', 'img', 'question',)
