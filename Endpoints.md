@@ -119,13 +119,12 @@ adding an answer is just a little extra
 
 POST request for answers
 
-https://questionbox-torpedo-shark.herokuapp.com/answers/add/ 
+https://questionbox-torpedo-shark.herokuapp.com/questions/1/answers/add/ <-- This endpoint requires the pk of the question it is associated with
 
 ```JSON
 # JSON
 {
-	"body": "This might be the answer",
-	"question": "1"  <-- for now you must manually input the question id
+	"body": "This might be the answer"
 }
 output
 {
