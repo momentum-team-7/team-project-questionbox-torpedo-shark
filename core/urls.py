@@ -10,10 +10,10 @@ urlpatterns = [
     path('profile-page/<int:user_id>/questions/', views.ProfileQuestions.as_view()),
     path('questions/', views.QuestionList.as_view()),
     path('questions/<int:pk>/', views.QuestionDetail.as_view()),
+    path('questions/<int:question_id>/answers/add/', views.AnswerWrite.as_view()),
     path('questions/<int:question_id>/answers/', views.QuestionResponse.as_view()),
     path('answers/<int:pk>/', views.AnswerDetail.as_view()),
     path('answers/', views.AnswerList.as_view()),
-    path('answers/add/', views.AnswerWrite.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
