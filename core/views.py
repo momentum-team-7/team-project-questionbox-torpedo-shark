@@ -7,8 +7,6 @@ from .serializers import UserSerializer, QuestionSerializer, AnswerSerializer, Q
 from .serializers import AnswerWriteableSerializer, ProfileSerializer, ProfileDetailSerializer
 
 
-# Create your views here.
-
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -59,11 +57,6 @@ class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = QuestionDetailSerializer
     permission_class = [IsAuthenticated]
 
-    # def get_serializer(self, *args, **kwargs):
-    #     # leave this intact
-    #     serializer_class = self.get_serializer_class()
-    #     kwargs["context"] = self.get_serializer_context()
-    #     return serializer_class(*args, **kwargs)
 
     def perform_update(self, serializer):
         instance = serializer.save()
@@ -91,8 +84,6 @@ class AnswerWrite(generics.ListCreateAPIView):
     serializer_class = AnswerWriteableSerializer
     permission_classes = [IsAuthenticated]
 
-    # def perform_create(self, serializer):
-    #     serializer.save(author=self.request.user)
 
     def get_queryset(self):
         question_id = self.kwargs.get('question_id')
@@ -103,9 +94,6 @@ class AnswerWrite(generics.ListCreateAPIView):
         question = get_object_or_404(Question, pk=self.kwargs['question_id'])
         serializer.save(question=question)
         serializer.save(author=self.request.user)
-
-    # def perform_create(self, serializer):
-    #     serializer.save(question=self.kwargs.get('question_id'))
 
 
 class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
