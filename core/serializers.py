@@ -34,10 +34,11 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class AnswerWriteableSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     
     class Meta:
         model = Answer
-        fields = ('id', 'body', 'question', 'author',)
+        fields = ('id', 'body', 'author',)
 
 
 class QuestionSerializer(serializers.ModelSerializer):

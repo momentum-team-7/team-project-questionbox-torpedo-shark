@@ -88,22 +88,21 @@ class AnswerList(generics.ListCreateAPIView):
 
 
 class AnswerWrite(generics.ListCreateAPIView):
-    queryset = Answer.objects.all()
     serializer_class = AnswerWriteableSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-    # def get_queryset(self):
-    #     question_id = self.kwargs.get('question_id')
-    #     question = get_object_or_404(Question, pk=question_id)
-    #     return Answer.objects.filter(question=question)
-
     # def perform_create(self, serializer):
-    #     question = get_object_or_404(Question, pk=self.kwargs['question_id'])
-    #     serializer.save(question=question)
-        # serializer.save(author=self.request.user)
+    #     serializer.save(author=self.request.user)
+
+    def get_queryset(self):
+        question_id = self.kwargs.get('question_id')
+        question = get_object_or_404(Question, pk=question_id)
+        return Answer.objects.filter(question=question)
+
+    def perform_create(self, serializer):
+        question = get_object_or_404(Question, pk=self.kwargs['question_id'])
+        serializer.save(question=question)
+        serializer.save(author=self.request.user)
 
     # def perform_create(self, serializer):
     #     serializer.save(question=self.kwargs.get('question_id'))
